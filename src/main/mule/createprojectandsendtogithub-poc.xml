@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="06d36185-40c2-41d5-8bdf-20caf644e408" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="createprojectandsendtogithub-pocFlow" doc:id="3f0c21c0-4835-4da2-898b-5c38b278956e" >
+		<http:listener doc:name="Listener" doc:id="3e835c3f-800b-4894-aec6-e80a257fc08b" config-ref="HTTP_Listener_config" path="test"/>
+		<logger level="INFO" doc:name="Logger" doc:id="c6ddd4b9-a34b-4ddf-be69-a56d2d8357ba" message="start flow"/>
+		<ee:transform doc:name="Transform Message" doc:id="aa7b6cdc-6b4e-4a62-a47a-ff8eef93e2df" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+"i am pushing this code to git hub"]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="3e7abb58-b419-467d-bb99-66f6ad946b1f" message="end flow"/>
+	</flow>
+</mule>
